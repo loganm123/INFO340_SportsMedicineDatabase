@@ -31,3 +31,92 @@ CREATE TABLE PLAYER_INJURY
    InjuryDate date)
 
 GO
+
+CREATE TABLE TREATMENT
+  (TreatmentID INT IDENTITY(1,1) primary key,
+   TreatmentName varchar(40),
+   TreatmentDescr varchar(100))
+
+GO
+
+CREATE TABLE INJURY_TREATMENT
+  (InjuryID INT FOREIGN KEY REFERENCES INJURY(InjuryID),
+   TreatmentID INT FOREIGN KEY REFERENCES TREATMENT(TreatmentID),
+   TreatmentDate date)
+
+GO
+
+CREATE TABLE DOCTOR
+  (DoctorID INT IDENTITY(1,1) primary key,
+   DoctorfName varchar(50),
+   DoctorlName varchar(50))
+
+GO
+
+CREATE TABLE TREATMENT_DOCTOR
+  (DoctorID INT FOREIGN KEY REFERENCES DOCTOR(DoctorID),
+   TreatmentID INT FOREIGN KEY REFERENCES TREATMENT(TreamentID),
+   HireDate date)
+
+GO
+
+CREATE TABLE POSITION_TYPE
+  (PositionTypeID INT IDENTITY(1,1) primary key,
+   PositionName varhcar(60),
+   PositionDesc varchar(100))
+GO
+
+CREATE TABLE POSITION
+  (PositionID INT IDENTITY(1,1) primary key,
+   PositonTypeID INT FOREIGN KEY REFERENCES POSITION_TYPE(PositionTypeID))
+GO
+
+CREATE TABLE PLAYER_POSITION
+  (PlayerID INT FOREIGN KEY REFERENCES PLAYER(PlayerID),
+   PositonID INT FOREIGN KEY REFERENCES POSITON(PositionID),
+   DateAssigned DATE)
+GO
+
+CREATE TABLE SPORT_TYPE
+  (SportTypeID INT IDENTITY(1,1) primary KEY,
+   TypeName varchar(60),
+   TypeDesc varchar(70))
+
+GO
+
+CREATE TABLE SPORT
+  (SportID INT IDENTITY(1,1) primary key,
+   SportTypeID INT FOREIGN KEY REFERENCES SPORT_TYPE(SportTypeID),
+   SportName varchar(60),
+   SportDesc varchar(80))
+GO
+
+CREATE TABLE TEAM
+  (TeamID INT IDENTITY(1,1)  primary key,
+   TeamName varchar(60),
+   TeamDescription varchar(100),
+   SportID INT FOREIGN KEY REFERENCES SPORT(SportID))
+GO
+
+CREATE TABLE PLAYER_TEAM
+  (PlayerID INT FOREIGN KEY REFERENCES PLAYER(PlayerID),
+   TeamID INT FOREIGN KEY REFERENCES TEAM(TeamID),
+   DateDrafted DATE)
+GO
+
+CREATE TABLE COACH_TYPE
+  (CoachTypeID INT IDENTITY(1,1) primary key,
+   CoachTypeName varchar(60),
+   CoachTypeDesc varchar(60))
+GO
+
+CREATE TABLE COACH
+  (CoachID INT IDENTITY(1,1) primary key,
+   CoachFname varchar(60),
+   CoachLname varchar(60),
+   BirthDate DATE,
+   DateAssigned DATE,
+   CoachTypeID INT FOREIGN KEY REFERENCES COACH_TYPE(CoachTypeID),
+   TeamID INT FOREIGN KEY REFERENCES TEAM(TeamID))
+
+GO
