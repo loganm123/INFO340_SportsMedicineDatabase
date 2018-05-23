@@ -1,0 +1,69 @@
+--Hannah Gavin's Stored Procedures
+CREATE PROCEDURE uspNewCoach
+@CoachFName VARCHAR (60),
+@CoachLName VARCHAR (60),
+@BirthDate DATE,
+@CoachTypeName VARCHAR (60),
+@TeamName VARCHAR (60)
+
+AS
+DECLARE @CID  INT *coach ID
+DELCARE @CoachTypeID
+DECLARE @TID *Team ID
+
+SET @CID = (SELECT CoachID
+FROM COACH
+        WHERE CoachFname = @CoachFName
+        AND CoachLname = @CoachLName)
+SET @CoachTypeID = (SELECT CoachTypeID
+                FROM COACH_TYPE
+            WHERE CoachTypeName = @CoachTypeName)
+SET @TID = (SELECT TeamID
+        FROM TEAM
+        WHERE TeamName = @TeamName)
+BEGIN TRAN T1
+INSERT INTO COACH(CoachID, CoachFname, CoachLname, BirthDate, DateAssigned, CoachTypeID, TeamID)
+VALUES (@CID, @CoachID, @TID)
+IF @@ERROR <> 0
+    ROLLBACK TRAN T1
+ELSE
+    COMMIT TRAN T1
+GO
+
+CREATE PROCEDURE NewCollege
+@CollegeName VARCHAR (60),
+@CollegeDivName (60),
+@SportName VARCHAR (30),
+@TeamName VARCHAR (50),
+@RegionName VARCHAR (40)
+
+AS
+
+DECLARE @CID INT *College ID
+DECLARE @CDIV INT *College Division
+DELCARE @Sid *Sport ID
+DELCARE @TID *Team ID
+DECLARE @RID *RegionID
+
+SET @CID = (SELECT College ID
+        FROM COLLEGE
+        WHERE CollegeName = @CollegeName)
+SET @CDIV =(SELECT CollegeDivisionID
+        FROM COLLEGE_DIVISION
+        WHERE DivisionName = @CollegeDivName)
+SET @Sid = (SELECT SportID
+        FROM SPORT
+        WHERE SportName = @SportName)
+SET @TID = (SELECT TeamID
+        FROM TEAM
+        WHERE TeamName = @TeamName)
+SET @RID = (SELECT RegionID
+        FROM REGION
+        WHERE RegionName = @RegionName)
+BEGIN TRAN t1
+INSERT INTO COLLEGE(CollegeID, CollegeName, CollegeDivisionID, SportID, TeamID, RegionID)
+VALUES (@CID, @CDIV, @Sid, @TID, @RID)
+IF @@ERROR <> 0
+    ROLLBACK TRAN T1
+ELSE
+    COMMIT TRAN T1
