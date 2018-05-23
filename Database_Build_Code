@@ -120,3 +120,20 @@ CREATE TABLE COACH
    TeamID INT FOREIGN KEY REFERENCES TEAM(TeamID))
 
 GO
+
+
+CREATE TABLE REGION
+  (RegionID INT IDENTITY(1,1) primary key,
+   RegionName varchar(60),
+   RegionDes varchar(80))
+GO
+
+CREATE TABLE COLLEGE_DIVISION
+  (CollegeDivisionID INT IDENTITY(1,1) primary key,
+   DivisonName varchar(60),
+   DivisionDesc varchar(80))
+GO
+
+CREATE TABLE COLLEGE
+  (CollegeID INT IDENTITY(1,1) primary key,
+   CollegeName varchar(80))
