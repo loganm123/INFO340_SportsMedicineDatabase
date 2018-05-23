@@ -1,0 +1,33 @@
+CREATE DATABASE AF_Sports_Medicine
+
+GO
+
+CREATE TABLE INJURY_TYPE
+  (InjuryTypeID INT IDENTITY(1,1) primary key,
+   InjuryTypeName varchar(50),
+   InjuryTypeDescription varchar(60))
+
+GO
+
+CREATE TABLE INJURY
+  (InjuryID INT IDENTITY(1,1) primary key,
+   InjuryTypeID INT FOREIGN KEY REFERENCES INJURY_TYPE(InjuryTypeID) not null,
+   InjuryName varchar(50))
+
+GO
+
+CREATE TABLE PLAYER
+  (PlayerID INT IDENTITY(1,1) primary key,
+   PlayerfName varchar(40),
+   PlayerlName varchar(40),
+   BirthDate date,
+   Gender varchar(40))
+
+GO
+
+CREATE TABLE PLAYER_INJURY
+  (PlayerID INT FOREIGN KEY REFERENCES PLAYER(PlayerID),
+   InjuryID INT FOREIGN KEY REFERENCES INJURY(InjuryID),
+   InjuryDate date)
+
+GO
