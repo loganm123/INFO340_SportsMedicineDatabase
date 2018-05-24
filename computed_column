@@ -1,0 +1,19 @@
+--Logan's computed column
+--This computes how many times a doctor has treated a specific type of injury
+CREATE FUNCTION fn_timestreated(@DoctorID INT, @InjuryID INT)
+RETURNS INT
+AS
+BEGIN
+  DECLARE @r INT = (SELECT SUM()
+    FROM DOCTOR D
+      JOIN TREATMENT_DOCTOR TD ON TD.DoctorID = D.DoctorID
+      JOIN TREATMENT T ON T.TreamentID = TD.TreamentID
+      JOIN INJURY_TREATMENT IT ON IT.TreamentID = T.TreamentID
+      JOIN INJURY I ON I.InjuryID = IT.InjuryID
+    WHERE D.DoctorID = @DoctorID
+      AND @InjuryID = I.InjuryID)
+    RETURN @R
+
+ALTER TABLE DOCTOR
+ADD TimesEachInjuryTreated
+  AS (dbo.fn_timestreated(DoctorID,InjuryID))
