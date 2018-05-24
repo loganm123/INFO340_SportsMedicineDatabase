@@ -1,0 +1,62 @@
+--This is for populations scripts of the database/tables
+--if it put data in, put it here
+
+--These populate the treatment table
+INSERT INTO TREATMENT(TreatmentName, TreatmentDescr) VALUES ("Cold Compress", "Put something cold onto it")
+GO
+INSERT INTO TREATMENT(TreatmentName, TreatmentDescr) VALUES ("Ice Bath", "Take a dunk in the ice tank and free those stiff boys up")
+GO
+INSERT INTO TREATMENT(TreatmentName, TreatmentDescr) VALUES ("Anal Surgery", "A pain in the ass")
+GO
+INSERT INTO TREATMENT(TreatmentName, TreatmentDescr) VALUES ("Massage", "Get those muscles rolled up by our resident masseuse")
+GO
+
+--populate Injury_Type table
+INSERT INTO INJURY_TYPE(InjuryTypeName, InjuryTypeDescription) VALUES ("Wrist", "On the wrist")
+GO
+INSERT INTO INJURY_TYPE(InjuryTypeName, InjuryTypeDescription) VALUES ("Head", "On the head")
+GO
+INSERT INTO INJURY_TYPE(InjuryTypeName, InjuryTypeDescription) VALUES ("Leg", "On the leg")
+GO
+
+--populates the injury table
+
+INSERT INTO INJURY(InjuryTypeID,InjuryName) VALUES ((SELECT IT.InjuryTypeID FROM INJURY_TYPE IT WHERE IT.InjuryTypeName = "Leg"), "Owee")
+GO
+INSERT INTO INJURY(InjuryTypeID,InjuryName) VALUES ((SELECT IT.InjuryTypeID FROM INJURY_TYPE IT WHERE IT.InjuryTypeName = "Head"), "Owee")
+GO
+INSERT INTO INJURY(InjuryTypeID,InjuryName) VALUES ((SELECT IT.InjuryTypeID FROM INJURY_TYPE IT WHERE IT.InjuryTypeName = "Wrist"), "Owee")
+GO
+INSERT INTO INJURY(InjuryTypeID,InjuryName) VALUES ((SELECT IT.InjuryTypeID FROM INJURY_TYPE IT WHERE IT.InjuryTypeName = "Head"), "Ouchee")
+GO
+INSERT INTO INJURY(InjuryTypeID,InjuryName) VALUES ((SELECT IT.InjuryTypeID FROM INJURY_TYPE IT WHERE IT.InjuryTypeName = "Wrist"), "Ouchee")
+GO
+
+
+--populates the INJURY_TREATMENT table
+
+INSERT INTO INJURY_TREATMENT(InjuryID, TreatmentID, TreatmentDate) VALUES ((SELECT I.InjuryID FROM INJURY I WHERE InjuryName = "Owee" AND I.InjuryTypeID = 1), (SELECT T.TreatmentID
+  FROM TREATMENT T WHERE T.TreatmentName = 'Anal Surgery'), '1/2/2018')
+INSERT INTO INJURY_TREATMENT(InjuryID, TreatmentID, TreatmentDate) VALUES ((SELECT I.InjuryID FROM INJURY I WHERE InjuryName = "Owee" AND I.InjuryTypeID = 2), (SELECT T.TreatmentID
+  FROM TREATMENT T WHERE T.TreatmentName = 'Ice Bath'), '1/7/2005')
+
+--populates the DOCTOR and TREATMENT_DOCTOR tables
+EXEC dbo.uspdocdoctreatment
+@DoctorfName = 'John'
+@DoctorlName = 'Smith'
+@TreatmentDate = 'June 25, 2005'
+@TreatmentName = 'Cold Compress'
+
+EXEC dbo.uspdocdoctreatment
+@DoctorfName = 'Mary'
+@DoctorlName = 'Smith'
+@TreatmentDate = 'September 8, 1996'
+@TreatmentName = 'Anal Surgery'
+
+EXEC dbo.uspdocdoctreatment
+@DoctorfName = 'Mark'
+@DoctorlName = 'Meywirtz'
+@TreatmentDate = 'May 20, 1969'
+@TreatmentName = 'Massage'
+
+--

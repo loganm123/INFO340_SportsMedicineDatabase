@@ -75,7 +75,7 @@ ELSE
 CREATE PROCEDURE uspdocdoctreatment
 @DoctorfName varchar(50),
 @DoctorlName varchar(50),
-@HireDate date,
+@TreatmentDate date,
 @TreatmentName varchar(40)
 
 AS
@@ -91,7 +91,7 @@ BEGIN TRAN T1
   DECLARE @TreatmentID INT
   SET @TreamentID = (SELECT (*) FROM TREATMENT WHERE @TreatmentName = TREATMENT.TreatmentName)
 --gets the values into the TREATMENT_DOCTOR table
-  INSERT INTO TREAMENT_DOCTOR(DoctorID, TreatmentID, HireDate) VALUES (@DoctorID, @TreatmentID, @HireDate)
+  INSERT INTO TREAMENT_DOCTOR(DoctorID, TreatmentID, HireDate) VALUES (@DoctorID, @TreatmentID, @TreatmentDate)
 --minimal error control
   IF @@ERROR <> 0
     ROLLBACK TRAN T1
