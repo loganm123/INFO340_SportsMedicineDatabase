@@ -6,7 +6,7 @@
 --etc
 
 --Logan's Business Rule
---This business rule restricts all incoming players to be at least 18 years of age
+--This business rule restricts all incoming players to be at least 18 years of age if they play basketball
 CREATE FUNCTION fn_adults_only()
 
 RETURNS INT
@@ -14,9 +14,14 @@ AS
 BEGIN
   DECLARE @r INT = 0
   IF EXISTS (SELECT *
-    FROM PLAYER
+    FROM PLAYER P
+      JOIN PLAYER_TEAM PT
+        ON P.PlayerID = PT. PlayerID
+      JOIN TEAM T ON T.TeamID = PT.TeamID
+      JOIN SPORT S ON S.SportID = T.TeamID
     --This part here should check that they're 18 or older
-    WHERE ((GETDATE() AS DATE) - PLAYER.BirthDate) >= 18 )
+    WHERE ((GETDATE() AS DATE) - P.BirthDate) >= 18
+      AND S.SportName = 'Basketball')
   SET @r = 1
   RETURN @r
 
