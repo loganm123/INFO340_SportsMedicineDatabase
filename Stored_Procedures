@@ -67,3 +67,56 @@ IF @@ERROR <> 0
     ROLLBACK TRAN T1
 ELSE
     COMMIT TRAN T1
+
+--Logan's Stored Procedures
+
+--uspdocdoctreatment inserts into both the doctor table and the TREAMENT_DOCTOR table, so that's a yeet
+
+CREATE PROCEDURE uspdocdoctreatment
+@DoctorfName varchar(50),
+@DoctorlName varchar(50),
+@HireDate date,
+@TreatmentName varchar(40)
+
+AS
+
+BEGIN TRAN T1
+
+--Inserts into the doctor table
+  INSERT INTO DOCTOR(DoctorfName,DoctorlName) VALUES (@DoctorfName, @DoctorlName)
+  DECLARE @DoctorID
+
+  --gets the doctor id from the table
+  SET A @DoctorID = SCOPE_IDENTITY(
+  DECLARE @TreatmentID INT
+  SET @TreamentID = (SELECT (*) FROM TREATMENT WHERE @TreatmentName = TREATMENT.TreatmentName)
+--gets the values into the TREATMENT_DOCTOR table
+  INSERT INTO TREAMENT_DOCTOR(DoctorID, TreatmentID, HireDate) VALUES (@DoctorID, @TreatmentID, @HireDate)
+--minimal error control
+  IF @@ERROR <> 0
+    ROLLBACK TRAN T1
+
+  ELSE
+    COMMIT TRAN T1
+
+GO
+
+
+--This stored procedure adds to the injury_type table
+
+CREATE PROCEDURE usp_injury_type
+@InjuryTypeName varchar(50),
+@InjuryTypeDescription varchar(60)
+
+AS
+
+BEGIN TRAN T1
+
+INSERT INTO INJURY_TYPE (InjuryTypeName, InjuryTypeDescription) VALUES (@InjuryTypeName, @InjuryTypeDescription)
+
+IF @@ERROR <> 0
+  ROLLBACK TRAN T1
+ELSE
+  COMMIT TRAN T1
+
+GO
