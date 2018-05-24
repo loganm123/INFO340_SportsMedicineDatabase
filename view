@@ -1,0 +1,35 @@
+--This is all the views
+
+--Logan's view
+-- this view is for doctors at the University of Washington who have treated 2 or more injuries for outdoor sports in 2018
+--and who have treated more than five injuries before 1980
+CREATE VIEW AS doctors1980_2018
+  SELECT *
+  FROM DOCTOR D
+    JOIN TREAMENT_DOCTOR DT ON DT.DoctorID = D.DoctorID
+    JOIN TREAMENT T ON T.TreatmentID = DT.TreatmentID
+    JOIN INJURY_TREAMENT IT ON IT.TreamentID = T.TreamentID
+    JOIN INJURY I ON I.InjuryID = IT.InjuryID
+    JOIN PLAYER_INJURY PII ON PII.InjuryID = I.InjuryID
+    JOIN PLAYER P ON P.PlayerID = PII.PlayerID
+    JOIN PLAYER_TEAM PT ON PT.PlayerID = P.PlayerID
+    JOIN TEAM T ON T.TeamID = PT.TeamID
+    JOIN COLLEGE_TEAM CT ON CT.TeamID = T.TeamID
+    JOIN COLLEGE C ON C.CollegeID = CT.CollegeID
+    JOIN SPORT S ON S.SportID = T.SportID
+    JOIN SPORT_TYPE ST ON ST.SportTypeID = S.SportTypeID
+  GROUP BY D.DoctorID
+  WHERE C.CollegeName = 'University of Washington'
+    AND ST.TypeName = 'Outdoor'
+    AND IT.TreatmentDate LIKE '%2018%'
+    AND HAVING SUM(IT.TreatmentID) > 2
+    AND D.DoctorID IN (
+      SELECT D.DoctorID
+      FROM DOCTOR D
+        JOIN TREATMENT_DOCTOR TD ON TD.DoctorID = D.DoctorID
+        JOIN TREATMENT T ON T.TreamentID = TD.TreatmentID
+        JOIN INJURY_TREATMENT IT ON IT.TreatmentID = T.TreatmentID
+      GROUP BY D.DoctorID
+      WHERE IT.TreatmentDate < LIKE '%1980%'
+        AND HAVING SUM(IT.TreatmentID) > 5
+    )
