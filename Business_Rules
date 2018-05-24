@@ -1,0 +1,28 @@
+--Business rules restrict incoming data so that we as a business are profitable and compliant
+--with all relevant laws
+--like child "labor" laws
+-- or food "health" laws
+
+--etc
+
+--Logan's Business Rule
+--This business rule restricts all incoming players to be at least 18 years of age
+CREATE FUNCTION fn_adults_only()
+
+RETURNS INT
+AS
+BEGIN
+  DECLARE @r INT = 0
+  IF EXISTS (SELECT *
+    FROM PLAYER
+    --This part here should check that they're 18 or older
+    WHERE ((GETDATE() AS DATE) - PLAYER.BirthDate) >= 18 )
+  SET @r = 1
+  RETURN @r
+
+  END
+  GO
+
+  ALTER TABLE PLAYER
+  ADD CONSTRAINT ck_18older
+  CHECK (dbo.fn_adults_only() = 0)
