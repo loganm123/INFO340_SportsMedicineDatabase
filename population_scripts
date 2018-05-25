@@ -59,4 +59,23 @@ EXEC dbo.uspdocdoctreatment
 @TreatmentDate = 'May 20, 1969',
 @TreatmentName = 'Massage'
 GO
+
+EXEC dbo.uspdocdoctreatment
+@DoctorfName = 'Rahul',
+@DoctorlName = 'Prasad',
+@TreatmentDate = 'May 5, 2011',
+@TreatmentName = 'Anal Surgery'
+GO
+EXEC dbo.uspdocdoctreatment
+@DoctorfName = 'Maddie',
+@DoctorlName = 'Colbie',
+@TreatmentDate = 'January 1, 2015',
+@TreatmentName = 'Ice Bath'
+GO
+EXEC dbo.uspdocdoctreatment
+@DoctorfName = 'Johnny',
+@DoctorlName = 'McDowell',
+@TreatmentDate = 'July 18, 1978',
+@TreatmentName = 'Massage'
+GO
 --

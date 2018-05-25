@@ -91,7 +91,7 @@ BEGIN TRAN T1
   DECLARE @TreatmentID INT
   SET @TreatmentID = (SELECT T.TreatmentID FROM TREATMENT T WHERE @TreatmentName = T.TreatmentName)
 --gets the values into the TREATMENT_DOCTOR table
-  INSERT INTO TREAMENT_DOCTOR(DoctorID, TreatmentID, HireDate) VALUES (@DoctorID, @TreatmentID, @TreatmentDate)
+  INSERT INTO TREATMENT_DOCTOR(DoctorID, TreatmentID, TreatmentDate) VALUES (@DoctorID, @TreatmentID, @TreatmentDate)
 --minimal error control
   IF @@ERROR <> 0
     ROLLBACK TRAN T1
