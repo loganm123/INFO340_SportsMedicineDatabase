@@ -84,12 +84,12 @@ BEGIN TRAN T1
 
 --Inserts into the doctor table
   INSERT INTO DOCTOR(DoctorfName,DoctorlName) VALUES (@DoctorfName, @DoctorlName)
-  DECLARE @DoctorID
+  DECLARE @DoctorID INT
 
   --gets the doctor id from the table
-  SET A @DoctorID = SCOPE_IDENTITY(
+  SET @DoctorID = SCOPE_IDENTITY()
   DECLARE @TreatmentID INT
-  SET @TreamentID = (SELECT (*) FROM TREATMENT WHERE @TreatmentName = TREATMENT.TreatmentName)
+  SET @TreatmentID = (SELECT T.TreatmentID FROM TREATMENT T WHERE @TreatmentName = T.TreatmentName)
 --gets the values into the TREATMENT_DOCTOR table
   INSERT INTO TREAMENT_DOCTOR(DoctorID, TreatmentID, HireDate) VALUES (@DoctorID, @TreatmentID, @TreatmentDate)
 --minimal error control
