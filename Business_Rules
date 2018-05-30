@@ -31,3 +31,34 @@ BEGIN
   ALTER TABLE PLAYER
   ADD CONSTRAINT ck_18older
   CHECK (dbo.fn_adults_only() = 0)
+  
+  --Hannah's Buisness Rule
+  --This restricts all basketball players from being young than 17 years for the incoming season.  
+
+CREATE FUNCTION OnlyBasketball()
+RETURNS INT
+AS 
+BEGIN
+DELCARE @RET = 0
+IF EXISTS(
+SELECT *
+FROM PLAYER P
+JOIN PLAYER_TEAM PT
+		ON P.PlayerID = PT.PlayerID
+JOIN TEAM T
+	ON PT.TeamID = T.TeamID
+JOIN SPORT S
+ON T.SportID = S.SportID
+JOIN SPORT_TYPE ST
+ON S.SportTypeID = ST.SportTypeID
+WHERE S.SportName = “Basketball”
+AND P.BirthDate > ‘06/24/2000’
+)
+Set @RET = 1
+RETURN @RET
+END
+
+ALTER TABLE PLAYER 
+ADD CONSTRAINT noYoungBballPlayer
+CHECK (dbo.fn_OnlyBasketball()=0)
+
