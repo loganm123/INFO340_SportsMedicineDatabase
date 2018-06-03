@@ -62,3 +62,31 @@ ALTER TABLE PLAYER
 ADD CONSTRAINT noYoungBballPlayer
 CHECK (dbo.fn_OnlyBasketball()=0)
 
+-- Kevin's Business Rule
+/*
+Prevent Doctors from treating an 'ACL Injury' without treating atleast 4 prior injuries 
+to ensure good practice.
+*/
+
+-- User-Defined Function for Business Rule
+CREATE FUNCTION ck_ACLInjury()
+RETURNS INT 
+AS
+BEGIN
+	DECLARE @RET INT
+	IF EXISTS (
+		SELECT *
+		FROM DOCTOR D
+			JOIN TREATMENT_DOCTOR TD ON TD.DoctorID = D.DoctorID
+			JOIN TREATMENT T ON T.TreatmentID = TD.TreatmentID
+		WHERE COUNT(*) < 4
+		)
+	SET @RET = 1
+RETURN @RET
+END
+
+ALTER TABLE TREATMENT 
+ADD CONSTRAINT CK_AclInjury
+CHECK (dbo.ck_ACLInjury() = 0)
+
+

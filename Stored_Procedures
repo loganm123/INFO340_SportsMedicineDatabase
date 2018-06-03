@@ -120,3 +120,67 @@ ELSE
   COMMIT TRAN T1
 
 GO
+
+-- Kevin's Stored Procedures
+-- Stored Procedure #1
+-- Add a new player 
+
+CREATE PROCEDURE usp_NewPlayer
+@PlayerFname varchar(50),
+@PlayerLname varchar(50),
+@BirthDate DATE,
+@Gender varchar(10),
+@DateAssigned DATE,
+@PositionName varchar(100)
+
+AS
+
+DECLARE @PosID INT
+SET @PosID = (SELECT PositionID FROM POSITION WHERE PositionName = @PositionName)
+
+BEGIN TRAN T1
+INSERT INTO PLAYER (PlayerFname, PlayerLname, BirthDate, Gender)
+VALUES (@PlayerFname, @PlayerLname, @BirthDate, @Gender)
+
+DECLARE @PID INT = (SELECT SCOPE_IDENTITY())
+
+INSERT INTO PLAYER_POSITION (PlayerID, PositionID, DateAssigned)
+VALUES (@PID, @PosID, @DateAssigned)
+IF @@ERROR <> 0
+	ROLLBACK TRAN T1
+ELSE 
+	COMMIT TRAN T1
+GO
+
+-- Stored Procedure #2
+-- Add a new doctor and treatment
+
+CREATE PROCEDURE usp_NewDoctorTreatment
+@DoctorFname varchar(100),
+@DoctorLname varchar(100),
+@TreatmentName varchar(100),
+@TreatmentDesc varchar(100)
+
+AS
+
+DECLARE @DID INT
+DECLARE @TID INT
+
+BEGIN TRAN T1
+INSERT INTO DOCTOR(DoctorFname, DoctorLname)
+VALUES(@DoctorFname, @DoctorLname)
+
+SET @DID = (SELECT SCOPE_IDENTITY())
+
+INSERT INTO TREATMENT(TreatmentName, TreatmentDesc)
+VALUES(@TreatmentName, TreatmentDesc)
+
+SET @TID = (SELECT SCOPE_IDENTITY())
+
+INSERT INTO DOCTOR_TREATMENT(DoctorID, TreatmentID, TreatmentDate)
+VALUES(@DID, @TID, GETDATE())
+IF @@ERROR <> 0 
+	ROLLBACK TRAN T1
+ELSE
+	COMMIT TRAN T1
+GO

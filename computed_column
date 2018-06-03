@@ -17,3 +17,23 @@ BEGIN
 ALTER TABLE DOCTOR
 ADD TimesEachInjuryTreated
   AS (dbo.fn_timestreated(DoctorID,InjuryID))
+
+-- Kevin's Computed Column
+-- User-Defined Function for Computed Column
+CREATE FUNCTION fn_PlayersPerTeam(@TeamID INT)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @RET INT = (
+		SELECT COUNT(*)
+		FROM TEAM T 
+			JOIN PLAYER_TEAM PT ON PT.TeamID = T.TeamID
+			JOIN PLAYER P ON P.PlayerID = PT.PlayerID
+		WHERE T.TeamID = @TeamID
+	)
+RETURN @RET
+END
+
+ALTER TABLE TEAM
+ADD NumOfPlayers
+AS (dbo.fn_PlayersPerTeam(TeamID)
