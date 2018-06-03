@@ -1,0 +1,38 @@
+--3 Doctors who have treated women’s soccer team for 4 ACL injuries in 2015 at the University of Washington
+
+CREATE VIEW AS DoctorInfo
+SELECT TOP 3*
+FROM DOCTOR D
+   JOIN TREATMENT_DOCTOR TD 
+    ON D.DoctorID= TD.DoctorID
+  JOIN TREATMENT T 
+    ON TD.TreatmentID = T.TreatmentID
+  JOIN INJURY_TREATMENT IT O
+    N T.TreatmentID = IT.TreatmentID
+  JOIN INJURY I 
+    ON IT.InjuryID = I.InjuryID
+  JOIN PLAYER_INJURY PI 
+    ON I.InjuryID = PI.InjuryID
+  JOIN PLAYER P 
+    ON PI.PlayerID = P.PlayerID
+  JOIN PLAYER_TEAM PT 
+    ON P.PlayerID = PT.PlayerID
+  JOIN TEAM T
+    ON PT.TeamID = T.TeamID
+  JOIN SPORT S 
+    ON T.SportID = S.SportID
+  JOIN SPORT_TYPE ST 
+    ON S.SportTypeID =ST.SportTypeID
+  JOIN COLLEGE_TEAM CT  
+    ON T.TeamID = CT.TeamID
+  JOIN COLLEGE C 
+    ON CT.CollegeID = C.CollegeID
+WHERE P.Gender = ‘Female’
+AND I.InjuryName = ‘ACL’
+AND S.SportName = ‘Soccer’
+AND C.CollegeName = ‘University of Washington’
+AND PI.InjuryDate LIKE ‘2015 %’ 
+GROUP BY D.DoctorID
+HAVING SUM(IT.TreatmentID) > 4
+)
+
