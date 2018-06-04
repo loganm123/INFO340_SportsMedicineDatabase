@@ -1,8 +1,8 @@
---This is all the views
+--VIEWS--
 
---Logan's view
--- this view is for doctors at the University of Washington who have treated 2 or more injuries for outdoor sports in 2018
---and who have treated more than five injuries before 1980
+--Logan Marek
+/*For doctors at the University of Washington who have treated 2 or more injuries for outdoor sports in 2018
+and who have treated more than five injuries before 1980 */
 CREATE VIEW AS doctors1980_2018
   SELECT *
   FROM DOCTOR D
@@ -34,10 +34,9 @@ CREATE VIEW AS doctors1980_2018
         AND HAVING SUM(IT.TreatmentID) > 5
     )
 
--- Kevin's View
--- One View generating a 'complex' query 
--- View of the players that played on the University of Washington Basketball Men's Team
--- since 1980 with 2 or more injuries
+
+--Kevin Huynh 
+/* Players that played on the University of Washington Basketball Men's Team since 1980 with 2 or more injuries */
 CREATE VIEW AS PlayersSince1980
 	SELECT *
 	FROM TEAM T
@@ -52,9 +51,9 @@ CREATE VIEW AS PlayersSince1980
 		AND S.SportName = 'Basketball'
 	HAVING COUNT(PlayerID) > 1
 	
---Hannah's View:
---3 Doctors who have treated women’s soccer team for 4 ACL injuries in 2015 at the University of Washington
-
+	
+--Hannah Gavin
+/* 3 Doctors who have treated women’s soccer team for 4 ACL injuries in 2015 at the University of Washington */
 CREATE VIEW AS DoctorInfo
 SELECT TOP 3*
 FROM DOCTOR D
@@ -90,3 +89,7 @@ AND PI.InjuryDate LIKE ‘2015 %’
 GROUP BY D.DoctorID
 HAVING SUM(IT.TreatmentID) > 4
 )
+
+
+--Nikhila Iyer
+/**/
