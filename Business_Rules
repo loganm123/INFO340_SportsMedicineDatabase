@@ -6,8 +6,10 @@
 --etc
 
 --Logan's Business Rule
---This business rule restricts all incoming players to be at least 18 years of age if they play basketball
+/*
+This business rule restricts all incoming players to be at least 18 years of age if they play basketball
 CREATE FUNCTION fn_adults_only()
+*/
 
 RETURNS INT
 AS
@@ -32,8 +34,11 @@ BEGIN
   ADD CONSTRAINT ck_18older
   CHECK (dbo.fn_adults_only() = 0)
   
-  --Hannah's Buisness Rule
-  --All coaches must be 18 years or older: 
+--Hannah's Buisness Rule
+/*
+Checks that all coaches must be 18 years or older. 
+*/
+
 CREATE FUNCTION fn_OldCoachOnly()
 RETURNS INT
 AS 
@@ -59,7 +64,7 @@ CHECK (dbo.fn_OldCoachOnly()=0)
 
 -- Kevin's Business Rule
 /*
-Prevent Doctors from treating an 'ACL Injury' without treating atleast 4 prior injuries 
+Prevents doctors from treating an 'ACL Injury' without treating at least 4 prior injuries 
 to ensure good practice.
 */
 
