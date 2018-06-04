@@ -219,7 +219,6 @@ ELSE
 	COMMIT TRAN T1
 GO
 
---Nikhila Iyer
 /* Stored Procedure #2: Creates a new injury for an existing player */
 
 CREATE PROCEDURE usp_NewInjury
