@@ -1,5 +1,7 @@
---Logan's computed column
---This computes how many times a doctor has treated a specific type of injury
+--COMPUTED COLUMNS--
+
+--Logan Marek
+/*Computes how many times a doctor has treated a specific type of injury */
 CREATE FUNCTION fn_timestreated(@DoctorID INT, @InjuryID INT)
 RETURNS INT
 AS
@@ -18,8 +20,9 @@ ALTER TABLE DOCTOR
 ADD TimesEachInjuryTreated
   AS (dbo.fn_timestreated(DoctorID,InjuryID))
 
--- Kevin's Computed Column
--- User-Defined Function for Computed Column
+
+-- Kevin Huynh
+/* Calculates the total number of players on each team */
 CREATE FUNCTION fn_PlayersPerTeam(@TeamID INT)
 RETURNS INT
 AS
@@ -39,9 +42,8 @@ ADD NumOfPlayers
 AS (dbo.fn_PlayersPerTeam(TeamID)
 
 
-
---Hannah's Computed Column:
---Total number of colleges for each region 
+--Hannah Gavin
+/* Calculates the total number of colleges for each region */
 CREATE FUNCTION fn_NumCollegesPerRegion (@RegionID INT)
 RETURNS INT
 AS
@@ -58,3 +60,21 @@ END
 GO
 ALTER TABLE REGION
 ADD NumberOfColleges AS (dbo.fn_NumCollegesPerRegion(RegionID)
+
+--Nikhila Iyer
+/* Calculates the total number of teams for each sport, which is telling of competitive a sport is*/
+CREATE FUNCTION fn_NumTeamsPerSport (@SportID INT)
+RETURNS INT
+AS
+BEGIN
+DECLARE @Ret INT = 
+	(SELECT COUNT(*)
+	 FROM TEAM T
+		JOIN SPORT S ON T.SportID = S.SportID
+	 WHERE S.SportID = @SportID
+)
+RETURN @Ret
+END 
+GO
+ALTER TABLE SPORT
+ADD NumberOfTeams AS (dbo.fn_NumTeamsPerSport(SportID)
