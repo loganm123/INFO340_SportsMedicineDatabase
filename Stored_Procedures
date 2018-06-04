@@ -191,3 +191,61 @@ IF @@ERROR <> 0
 ELSE
 	COMMIT TRAN T1
 GO
+
+--Nikhila Iyer
+/* Stored Procedure #1: Creates a new team for an existing sport */
+
+CREATE PROCEDURE usp_NewTeam
+@TeamName VARCHAR(75)
+@TeamDescription VARCHAR(200)
+@SportName VARCHAR(50)
+AS
+
+DECLARE @T_ID INT = (SELECT TeamID
+		     FROM TEAM T
+		     WHERE TeamName = @TeamName)
+DECLARE @S_ID INT = (SELECT SportID
+		     FROM SPORT S
+		     WHERE SportName = @SportName)
+
+BEGIN TRAN T1
+INSERT INTO (TeamName, TeamDescription, SportName)
+VALUES (@T_ID, @TeamDescription, @S_ID)
+END
+
+IF @@ERROR <> 0 
+	ROLLBACK TRAN T1
+ELSE
+	COMMIT TRAN T1
+GO
+
+--Nikhila Iyer
+/* Stored Procedure #2: Creates a new injury for an existing player */
+
+CREATE PROCEDURE usp_NewInjury
+@InjuryName
+@InjuryTypeName
+@TreatmentName
+AS
+
+DECLARE @I_ID INT = (SELECT InjuryID
+		     FROM INJURY I
+		     WHERE InjuryName = @InjuryName)
+DECLARE @ITY_ID INT = (SELECT InjuryTypeID
+		       FROM INJURY_TYPE ITY
+		       WHERE InjuryTypeName = @InjuryTypeName)
+DECLARE @T_ID INT = (SELECT TreatmentID
+		     FROM INJURY_TREATMENT IT
+		     	JOIN TREATMENT T ON IT.TreatmentID = T.TreatmentID 
+		     WHERE TreatmentName = @TreatmentName)
+
+BEGIN TRAN T1
+INSERT INTO (InjuryName, InjuryTypeName, TreatmentName)
+VALUES (@I_ID, @ITY_ID, @T_ID)
+END
+
+IF @@ERROR <> 0 
+	ROLLBACK TRAN T1
+ELSE
+	COMMIT TRAN T1
+GO
