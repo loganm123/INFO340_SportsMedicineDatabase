@@ -1,4 +1,7 @@
---Hannah Gavin's Stored Procedures
+STORED PROCEDURES
+
+--Hannah Gavin
+/* Stored Procedure #1: Creates a new coach for an existing team */
 CREATE PROCEDURE uspNewCoach
 @CoachFName VARCHAR (60),
 @CoachLName VARCHAR (60),
@@ -37,7 +40,7 @@ EXEC dbo.uspNewCoach
 @DateAssigned = '12/01/2013
 GO
 
---Creates Stored Procdure for new college:
+/* Stored Procedure #2: Creates a new college and inserts it into the college table */
 CREATE PROCEDURE NewCollege
 @CollegeName VARCHAR (60),
 @CollegeDivName (60),
@@ -76,9 +79,8 @@ IF @@ERROR <> 0
 ELSE
     COMMIT TRAN T1
 
---Logan's Stored Procedures
-
---uspdocdoctreatment inserts into both the doctor table and the TREAMENT_DOCTOR table, so that's a yeet
+--Logan Marek
+/* Stored Procedure #1: Creates a new doctor and inserts into the table treatment_doctor as well */
 
 CREATE PROCEDURE uspdocdoctreatment
 @DoctorfName varchar(50),
@@ -109,8 +111,7 @@ BEGIN TRAN T1
 
 GO
 
-
---This stored procedure adds to the injury_type table
+/* Stored Procedure #2: Inserts into the injury_type table */
 
 CREATE PROCEDURE usp_injury_type
 @InjuryTypeName varchar(50),
@@ -129,9 +130,8 @@ ELSE
 
 GO
 
--- Kevin's Stored Procedures
--- Stored Procedure #1
--- Add a new player 
+-- Kevin Huynh
+/* Stored Procedure #1: Adds a new player into an exisiting position */
 
 CREATE PROCEDURE usp_NewPlayer
 @PlayerFname varchar(50),
@@ -160,8 +160,7 @@ ELSE
 	COMMIT TRAN T1
 GO
 
--- Stored Procedure #2
--- Add a new doctor and treatment
+/* Stored Procedure #2: Adds a new doctor and a new treatment */
 
 CREATE PROCEDURE usp_NewDoctorTreatment
 @DoctorFname varchar(100),
