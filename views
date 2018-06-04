@@ -104,3 +104,4 @@ SELECT *
 		JOIN COLLEGE_DIVISION CD ON C.CollegeDivisionID = CD.CollegeDivisionID
 	WHERE (PI.InjuryDate - PT.DateDrafted) < 1
 		AND CD.DivisionName = 'Division 1'
+	GROUP BY PI.InjuryID
