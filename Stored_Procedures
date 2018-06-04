@@ -30,6 +30,14 @@ ELSE
     COMMIT TRAN T1
 GO
 
+EXEC dbo.uspNewCoach
+@CoachFName = 'Chris'
+@CoachLName = 'Peterson'
+@BirthDate = '10/13/1964'
+@DateAssigned = '12/01/2013
+GO
+
+--Creates Stored Procdure for new college:
 CREATE PROCEDURE NewCollege
 @CollegeName VARCHAR (60),
 @CollegeDivName (60),
