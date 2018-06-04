@@ -88,8 +88,19 @@ AND C.CollegeName = ‘University of Washington’
 AND PI.InjuryDate LIKE ‘2015 %’ 
 GROUP BY D.DoctorID
 HAVING SUM(IT.TreatmentID) > 4
-)
 
 
 --Nikhila Iyer
-/**/
+/*Players that were injured within one year of being drafted specifically in Division I */
+
+CREATE VIEW AS D1Injuries
+SELECT *
+	FROM PLAYER_INJURY PI
+		JOIN PLAYER P ON PI.PlayerID = P.PlayerID
+		JOIN PLAYER_TEAM PT ON P.PlayerID = PT.PlayerID
+		JOIN TEAM T ON PT.TeamID = T.TeamID
+		JOIN COLLEGE_TEAM CT ON T.TeamID = CT.TeamID
+		JOIN COLLEGE C ON CT.CollegeID = C.CollegeID
+		JOIN COLLEGE_DIVISION CD ON C.CollegeDivisionID = CD.CollegeDivisionID
+	WHERE (PI.InjuryDate - PT.DateDrafted) < 1
+		AND CD.DivisionName = 'Division 1'
