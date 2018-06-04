@@ -1,16 +1,11 @@
---Business rules restrict incoming data so that we as a business are profitable and compliant
---with all relevant laws
---like child "labor" laws
--- or food "health" laws
+--BUSINESS RULES--
 
---etc
+/* Business rules restrict incoming data so that we as a business are profitable and compliant
+with all relevant laws like child "labor" laws or food "health" laws */
 
---Logan's Business Rule
-/*
-This business rule restricts all incoming players to be at least 18 years of age if they play basketball
+--Logan Marek
+/* Definition: Restricts all incoming players to be at least 18 years of age if they play basketball */
 CREATE FUNCTION fn_adults_only()
-*/
-
 RETURNS INT
 AS
 BEGIN
@@ -34,19 +29,16 @@ BEGIN
   ADD CONSTRAINT ck_18older
   CHECK (dbo.fn_adults_only() = 0)
   
---Hannah's Buisness Rule
-/*
-Checks that all coaches must be 18 years or older. 
-*/
-
+  
+--Hannah Gavin
+/* Definition: Checks that all coaches must be 18 years or older */
 CREATE FUNCTION fn_OldCoachOnly()
 RETURNS INT
-AS 
+AS
 BEGIN
 DECLARE @RET = 0
-IF EXISTS(
-SELECT *
-FROM COACH C
+IF EXISTS(SELECT *
+	FROM COACH C
 	JOIN TEAM T ON C.TeamID = T.TeamID
 	JOIN SPORT S ON T.SportID = S.SportID
 	JOIN SPORT_TYPE ST ON S.SportTypeID = ST.SportTypeID
@@ -62,13 +54,9 @@ ADD CONSTRAINT noYoungCoach
 CHECK (dbo.fn_OldCoachOnly()=0)
 
 
--- Kevin's Business Rule
-/*
-Prevents doctors from treating an 'ACL Injury' without treating at least 4 prior injuries 
-to ensure good practice.
-*/
-
--- User-Defined Function for Business Rule
+-- Kevin Huynh
+/* Definition: Prevents doctors from treating an 'ACL Injury' without treating at least 
+4 prior injuries to ensure good practice.*/
 CREATE FUNCTION ck_ACLInjury()
 RETURNS INT 
 AS
@@ -89,13 +77,9 @@ ALTER TABLE TREATMENT
 ADD CONSTRAINT CK_AclInjury
 CHECK (dbo.ck_ACLInjury() = 0)
 
--- Nikhila's Business Rule
-/*
-Does not allow players who have had injuries within the past 2 months or 
-treatment within the last 4 months to play.
-*/
-
--- User-Defined Function for Business Rule
+-- Nikhila Iyer
+/* Definition: Does not allow players who have had injuries within the past 2 months 
+or treatment within the last 4 months to play.*/
 CREATE FUNCTION fn_InjuredPlayers
 RETURN INT
 AS
